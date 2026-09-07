@@ -51,6 +51,41 @@
 
 ---
 
+## 安装
+
+适用于支持 Skill 的 Agent（智能体）环境，例如 Codex、Claude Code 等。
+
+```bash
+npx -y skills add wuyinhust/vibe-casting -g --all
+```
+
+也可以直接克隆仓库并读取根目录的 `SKILL.md`：
+
+```bash
+git clone https://github.com/wuyinhust/vibe-casting.git
+```
+
+---
+
+## 快速开始
+
+安装后，直接提出类似任务：
+
+```text
+帮我从零设计一个长期运营的 AI 虚拟人物。
+先做对标研究，不要直接出最终角色。
+```
+
+或者：
+
+```text
+我已经有一版角色图了。按 Vibe Casting 的流程判断我现在处在哪一阶段，并继续往下做。
+```
+
+如果已经提供参考图、角色草案或部分设定，Skill 会从当前阶段继续，而不是强制从头重做。
+
+---
+
 ## 设计原则
 
 ### 1. 复用方法，不复用人物
