@@ -1,0 +1,93 @@
+{
+  "files": [
+    {
+      "mime": "image/png",
+      "path": "images/identity-0da8ac11-bc44-42cd-8b31-aaadea629606.png",
+      "role": "identity",
+      "bytes": 868553,
+      "width": 441,
+      "height": 1024,
+      "sha256": "563f6d880308fc4cf89a351b5474731c79587275cd47c19de211563957e571a7",
+      "asset_id": "0da8ac11-bc44-42cd-8b31-aaadea629606"
+    },
+    {
+      "mime": "image/png",
+      "path": "images/front-ecf760ac-2fa3-49c8-8cac-3e0f961945b5.png",
+      "role": "front",
+      "bytes": 625230,
+      "width": 378,
+      "height": 1024,
+      "sha256": "e5b91cb84713f47faa81c1cdd65a409d9874d99426b057fcaa4bd6536bca9dbb",
+      "asset_id": "ecf760ac-2fa3-49c8-8cac-3e0f961945b5"
+    },
+    {
+      "mime": "image/png",
+      "path": "images/back-b516c532-c05c-415d-b467-9b7c09caec38.png",
+      "role": "back",
+      "bytes": 603540,
+      "width": 376,
+      "height": 1024,
+      "sha256": "828dddf60c7b6284763cb63ec56f858488acde2420e195e01874feba7f96587b",
+      "asset_id": "b516c532-c05c-415d-b467-9b7c09caec38"
+    },
+    {
+      "mime": "image/png",
+      "path": "images/side-01bb2e7c-6abb-42b9-81d9-f44e54c86bf1.png",
+      "role": "side",
+      "bytes": 497112,
+      "width": 341,
+      "height": 1024,
+      "sha256": "b7b80eb537b2cab6568a6ce91f93c6f7af697c8b681542399479a2f5dfd23741",
+      "asset_id": "01bb2e7c-6abb-42b9-81d9-f44e54c86bf1"
+    },
+    {
+      "mime": "image/png",
+      "path": "images/sheet-115e3ce6-a30b-4f5a-a6be-54109def9ef1.png",
+      "role": "sheet",
+      "bytes": 2823861,
+      "width": 1536,
+      "height": 1024,
+      "sha256": "2b8deecfab1e9083dd0d8704a5420559b496c9207d013b52f18abcb6b2e12a55",
+      "asset_id": "115e3ce6-a30b-4f5a-a6be-54109def9ef1"
+    },
+    {
+      "path": "persona.json",
+      "role": "metadata",
+      "bytes": 599,
+      "sha256": "cee47443df8078c6ab3297cf75f6a553ca67b2bb630556555ea39c5fe411375e"
+    },
+    {
+      "path": "LICENSE.json",
+      "role": "metadata",
+      "bytes": 328,
+      "sha256": "635786b7e74f6ac7ea94e2d3c60ad34ca9aa87798b7abb86b713319b78efd7f2"
+    },
+    {
+      "path": "USAGE.md",
+      "role": "metadata",
+      "bytes": 277,
+      "sha256": "922bacc0891333feccf5a3ce17376471a53e4813cf1b7efc17d154e5322b0d0c"
+    }
+  ],
+  "schema": "avibe-character-v1",
+  "source": {
+    "provider": "avibe",
+    "character_id": "lin-yue"
+  },
+  "license": {
+    "demo": true,
+    "text": {
+      "en": "Original demonstration assets for local evaluation. No commercial license is granted by demo metadata.",
+      "zh": "原创演示素材，仅用于本地产品评估。正式商用授权须另行确认。"
+    },
+    "type": "commercial",
+    "commercial": true,
+    "brand_collaboration": true
+  },
+  "look_id": "lin-yue-signature",
+  "package_id": "8892de57-f7e7-41d7-8946-e0a2453c40a3",
+  "character_id": "lin-yue",
+  "look_version": 1,
+  "inferred_back": false,
+  "identity_version": 1
+}

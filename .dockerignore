@@ -1,0 +1,16 @@
+# Git history and local-only state
+.git
+**/.env*
+!**/.env.example
+**/.data
+**/node_modules
+**/node_modules.incomplete
+**/.next
+**/.next-production
+**/test-results
+**/playwright-report
+**/*.tsbuildinfo
+**/__pycache__
+**/*.pyc
+**/artifacts/*.zip
+.DS_Store

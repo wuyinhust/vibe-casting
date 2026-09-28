@@ -1,0 +1,4 @@
+interface:
+  display_name: "avibe Casting"
+  short_description: "Find AI actors and download verified character packages"
+  default_prompt: "Use $avibe-casting to find suitable characters for my video and download the selected character packages."

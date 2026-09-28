@@ -1,0 +1,18 @@
+FROM node:24-alpine AS build
+WORKDIR /workspace
+COPY . .
+WORKDIR /workspace/apps/avibe-web
+RUN npm ci
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+RUN npm run build
+
+FROM node:24-alpine
+WORKDIR /workspace
+ENV NODE_ENV=production AVIBE_MODE=live
+COPY --from=build /workspace /workspace
+WORKDIR /workspace/apps/avibe-web
+USER node
+EXPOSE 3217
+CMD ["node","node_modules/next/dist/bin/next","start","-H","0.0.0.0","-p","3217"]

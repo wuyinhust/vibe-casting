@@ -1,0 +1,204 @@
+[
+  {
+    "id": "lin-yue",
+    "name": {
+      "zh": "林悦",
+      "en": "Lin Yue"
+    },
+    "age": 26,
+    "gender": "woman",
+    "personality": {
+      "zh": "温柔 · 文艺 · 松弛",
+      "en": "Gentle · Creative · Easygoing"
+    },
+    "background": {
+      "zh": "自由摄影师，喜欢在城市街巷里寻找日常故事。",
+      "en": "A freelance photographer finding everyday stories in the city."
+    },
+    "tags": [
+      "自然",
+      "生活方式",
+      "都市",
+      "温柔",
+      "natural",
+      "lifestyle",
+      "gentle",
+      "urban"
+    ]
+  },
+  {
+    "id": "chen-yu",
+    "name": {
+      "zh": "陈屿",
+      "en": "Chen Yu"
+    },
+    "age": 32,
+    "gender": "man",
+    "personality": {
+      "zh": "克制 · 冷静 · 都市",
+      "en": "Reserved · Composed · Urban"
+    },
+    "background": {
+      "zh": "建筑师，有自己的节奏，也有不轻易表露的温柔。",
+      "en": "An architect with a quiet confidence and a thoughtful side."
+    },
+    "tags": [
+      "职业装",
+      "都市",
+      "严肃",
+      "business",
+      "urban",
+      "serious"
+    ]
+  },
+  {
+    "id": "maya",
+    "name": {
+      "zh": "玛雅",
+      "en": "Maya"
+    },
+    "age": 29,
+    "gender": "woman",
+    "personality": {
+      "zh": "热情 · 自信 · 自由",
+      "en": "Warm · Confident · Free-spirited"
+    },
+    "background": {
+      "zh": "独立旅行撰稿人，用好奇心连接人与城市。",
+      "en": "An independent travel writer connecting people and places."
+    },
+    "tags": [
+      "旅行",
+      "生活方式",
+      "自然",
+      "travel",
+      "lifestyle",
+      "natural"
+    ]
+  },
+  {
+    "id": "zhou-yan",
+    "name": {
+      "zh": "周岩",
+      "en": "Zhou Yan"
+    },
+    "age": 52,
+    "gender": "man",
+    "personality": {
+      "zh": "沉稳 · 严肃 · 可靠",
+      "en": "Steady · Serious · Dependable"
+    },
+    "background": {
+      "zh": "经营一家旧书店的父亲，严肃外表下藏着细腻的关怀。",
+      "en": "A father and bookshop owner whose stern exterior hides a caring nature."
+    },
+    "tags": [
+      "父亲",
+      "成熟",
+      "严肃",
+      "father",
+      "mature",
+      "serious"
+    ]
+  },
+  {
+    "id": "su-ning",
+    "name": {
+      "zh": "苏宁",
+      "en": "Su Ning"
+    },
+    "age": 35,
+    "gender": "woman",
+    "personality": {
+      "zh": "独立 · 干练 · 理性",
+      "en": "Independent · Sharp · Rational"
+    },
+    "background": {
+      "zh": "品牌创意总监，善于在复杂局面中找到自己的答案。",
+      "en": "A creative director who finds clarity in complex situations."
+    },
+    "tags": [
+      "职业装",
+      "都市",
+      "职场",
+      "business",
+      "urban",
+      "professional"
+    ]
+  },
+  {
+    "id": "lu-sen",
+    "name": {
+      "zh": "陆森",
+      "en": "Lu Sen"
+    },
+    "age": 27,
+    "gender": "man",
+    "personality": {
+      "zh": "随性 · 青年 · 清朗",
+      "en": "Relaxed · Youthful · Bright"
+    },
+    "background": {
+      "zh": "在海边小镇经营咖啡馆，偶尔给乐队弹吉他。",
+      "en": "Runs a coastal café and plays guitar with friends."
+    },
+    "tags": [
+      "自然",
+      "青年",
+      "生活方式",
+      "natural",
+      "young",
+      "lifestyle"
+    ]
+  },
+  {
+    "id": "shen-lan",
+    "name": {
+      "zh": "沈岚",
+      "en": "Shen Lan"
+    },
+    "age": 65,
+    "gender": "woman",
+    "personality": {
+      "zh": "慈祥 · 从容 · 睿智",
+      "en": "Kind · Composed · Wise"
+    },
+    "background": {
+      "zh": "退休教师，依然关心街坊邻里每一个孩子的成长。",
+      "en": "A retired teacher who remains a thoughtful guide to her community."
+    },
+    "tags": [
+      "老年",
+      "祖母",
+      "生活方式",
+      "senior",
+      "grandmother",
+      "lifestyle"
+    ]
+  },
+  {
+    "id": "gu-chang",
+    "name": {
+      "zh": "顾长青",
+      "en": "Gu Changqing"
+    },
+    "age": 60,
+    "gender": "man",
+    "personality": {
+      "zh": "儒雅 · 古典 · 深沉",
+      "en": "Scholarly · Classical · Thoughtful"
+    },
+    "background": {
+      "zh": "游历山川的虚构古代学者，擅长观察人情与世事。",
+      "en": "A fictional historical scholar who observes people and the world."
+    },
+    "tags": [
+      "古装",
+      "长者",
+      "严肃",
+      "historical",
+      "elder",
+      "serious"
+    ]
+  }
+]

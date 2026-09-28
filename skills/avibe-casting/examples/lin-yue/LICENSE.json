@@ -1,0 +1,10 @@
+{
+  "type": "commercial",
+  "commercial": true,
+  "brand_collaboration": true,
+  "text": {
+    "en": "Original demonstration assets for local evaluation. No commercial license is granted by demo metadata.",
+    "zh": "原创演示素材，仅用于本地产品评估。正式商用授权须另行确认。"
+  },
+  "demo": true
+}

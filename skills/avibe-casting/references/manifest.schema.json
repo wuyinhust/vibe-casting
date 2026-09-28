@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "avibe-character-v1",
+  "type": "object",
+  "required": [
+    "schema",
+    "package_id",
+    "character_id",
+    "identity_version",
+    "look_id",
+    "look_version",
+    "license",
+    "source",
+    "files"
+  ],
+  "properties": {
+    "schema": {
+      "const": "avibe-character-v1"
+    },
+    "package_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "character_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "identity_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "look_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "look_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "license": {
+      "type": "object",
+      "required": [
+        "type",
+        "commercial",
+        "brand_collaboration",
+        "text"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "commercial",
+            "noncommercial",
+            "negotiation"
+          ]
+        },
+        "commercial": {
+          "type": "boolean"
+        },
+        "brand_collaboration": {
+          "type": "boolean"
+        },
+        "demo": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "object",
+          "required": [
+            "zh",
+            "en"
+          ],
+          "properties": {
+            "zh": {
+              "type": "string"
+            },
+            "en": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "provider",
+        "character_id"
+      ]
+    },
+    "inferred_back": {
+      "type": "boolean"
+    },
+    "files": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 999,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "role",
+          "bytes",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^(?!/)(?!.*\\.\\.)(?!.*\\\\).+$"
+          },
+          "role": {
+            "enum": [
+              "identity",
+              "front",
+              "back",
+              "side",
+              "sheet",
+              "showcase",
+              "metadata"
+            ]
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "asset_id": {
+            "type": "string"
+          },
+          "mime": {
+            "enum": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ]
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "role": {
+                  "enum": [
+                    "identity",
+                    "front",
+                    "back",
+                    "side",
+                    "sheet",
+                    "showcase"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "mime",
+                "width",
+                "height"
+              ]
+            }
+          }
+        ]
+      },
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "role": {
+                "const": "identity"
+              }
+            },
+            "required": [
+              "role"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "role": {
+                "const": "front"
+              }
+            },
+            "required": [
+              "role"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "role": {
+                "const": "back"
+              }
+            },
+            "required": [
+              "role"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+# local config and data
+.env*
+!.env.example
+**/.env.local
+**/.data/
+**/node_modules/
+**/node_modules.incomplete/
+**/.next/
+**/.next-production/
+**/test-results/
+**/playwright-report/
+**/*.tsbuildinfo
+__pycache__/
+*.pyc
+.DS_Store
+apps/avibe-web/artifacts/*.zip

@@ -1,0 +1,23 @@
+{
+  "name": {
+    "en": "Lin Yue",
+    "zh": "林悦"
+  },
+  "age": 26,
+  "personality": {
+    "en": "Gentle · Creative · Easygoing",
+    "zh": "温柔 · 文艺 · 松弛"
+  },
+  "background": {
+    "en": "A freelance photographer finding everyday stories in the city.",
+    "zh": "自由摄影师，喜欢在城市街巷里寻找日常故事。"
+  },
+  "identity_anchors": {
+    "en": "Preserve Lin Yue's facial structure, apparent age, hair and proportions.",
+    "zh": "保持林悦的脸型、年龄感、发型和身体比例。"
+  },
+  "look": {
+    "en": "温柔",
+    "zh": "自然"
+  }
+}
