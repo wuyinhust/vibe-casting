@@ -15,8 +15,8 @@ def call(route,method='GET',data=None,cookie=None,token=None,raw=None,content_ty
     try:
         with urllib.request.urlopen(request,timeout=90) as response:
             body=response.read()
-            return response.status,dict(response.headers),json.loads(body) if 'application/json' in response.headers.get('Content-Type','') else body
-    except urllib.error.HTTPError as error:return error.code,dict(error.headers),error.read()
+            return response.status,response.headers,json.loads(body) if 'application/json' in response.headers.get('Content-Type','') else body
+    except urllib.error.HTTPError as error:return error.code,error.headers,error.read()
 
 assert call('health')[2]['capabilities']['demo'], 'Refusing to test a live service'
 def session():
