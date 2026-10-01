@@ -14,3 +14,4 @@ __pycache__/
 *.pyc
 .DS_Store
 apps/avibe-web/artifacts/*.zip
+apps/avibe-web/public-preview/dist/
