@@ -22,3 +22,8 @@ The Worker is named `avibe-casting-preview`. `dist/` is generated and ignored
 by Git. Cloudflare domain bindings and the zone's more-specific Worker routes
 are managed separately; the existing `*.avibe.net/*` route points to the
 legacy `avibe` Worker and otherwise intercepts subdomains.
+
+As of 2026-10-01, `avibe.net` and `www.avibe.net` use this Worker;
+`www` redirects to the root. The old site uses `a.avibe.net` and keeps its
+original Worker and version. The full routing/rollback record is in
+`docs/AVIBE-NET-MIGRATION.md` at the repository root.

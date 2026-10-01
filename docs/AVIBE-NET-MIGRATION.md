@@ -19,8 +19,9 @@ Archived on 2026-09-29:
 - GitHub repository is archived; the existing Git history remains available.
 
 This is a source archive. It does not contain production databases, account
-records, credentials, DNS configuration or a verified copy of the active
-Cloudflare deployment. Preserve those separately before changing the route.
+records, credentials, DNS configuration or a copy of the active Cloudflare
+deployment. The old Cloudflare Worker and its active version were preserved
+during cutover, as recorded below.
 The local `/Users/vuyin/Documents/avibe` checkout is older than this archive;
 its untracked editor files were not published.
 
@@ -29,11 +30,17 @@ its untracked editor files were not published.
 The new source baseline is `50fdc8e53907b39a99b4ec659596b3044f260779` in
 `wuyinhust/vibe-casting`. The application is in `apps/avibe-web`.
 
-The old project's Wrangler configuration serves static `dist` files. The new
-website requires a Node.js server for `/api/v1`, private downloads, authentication
-and image processing, plus a separate generation worker when generation is
-enabled. Uploading a static build to the old Worker does not deploy those
-services. The repository provides a Node.js 24 Dockerfile.
+The old project's Wrangler configuration serves static `dist` files. The full
+new website requires a Node.js server for `/api/v1`, private downloads,
+authentication and image processing, plus a separate generation worker when
+generation is enabled. Uploading a static build to a Worker does not deploy
+those services. The repository provides a Node.js 24 Dockerfile.
+
+For the initial domain cutover, `apps/avibe-web/public-preview` supplies a
+static public preview based on the new site's visual language. It intentionally
+has no account, catalog API, character downloads, generation or payment flow.
+It excludes the local-evaluation-only character images. This is an interim
+public page, not the full Next.js casting platform.
 
 Use a dedicated Supabase project and execute migrations `001_core.sql`,
 `002_access.sql`, `003_talent_leads.sql` and `004_asset_passports.sql` in order.
@@ -46,20 +53,19 @@ evaluation only. Do not seed them into the production catalog. Any public
 example presentation needs a separately confirmed display license; that does
 not grant commercial downloads.
 
-## Cutover order
+## Full-platform release path
 
-1. Read the Cloudflare account, active Worker/Pages deployment and custom-domain
-   route. Record the deployment version and configuration needed for rollback.
-2. Deploy the replacement to an isolated address and configure its dedicated
+1. Deploy the full replacement to an isolated address and configure its dedicated
    database, private asset storage and authentication. Keep generation and
    payment unavailable until their providers and release checks pass.
-3. Verify public discovery, account isolation and authorized downloads against
+2. Verify public discovery, account isolation and authorized downloads against
    the actual deployed service. Verify only the features intended for this
    release; unfinished actions must visibly remain unavailable.
-4. Route `avibe.net` to the verified replacement and check the domain's HTTPS
-   response, website and API. Preserve the prior Cloudflare deployment.
-5. If cutover verification fails, restore the recorded old route/deployment.
-   Do not roll back by overwriting either project's database.
+3. Replace the interim public-preview Worker on `avibe.net` and `www.avibe.net`
+   with the verified full service. Check the domain's HTTPS response, website
+   and API. Preserve the prior Cloudflare deployments until stable.
+4. If release verification fails, restore the prior domain/route bindings. Do
+   not roll back by overwriting either project's database.
 
 ## Current status
 
@@ -83,6 +89,41 @@ The prepared source passed these checks on 2026-09-29:
 These checks used macOS and Node.js `26.0.0`. The Node.js 24 Docker runtime and
 real hosted Supabase, model and payment providers still need deployment checks.
 
-The public domain has not been switched. Cloudflare management access, the
-replacement runtime/database and the intended initial release scope still need
-to be supplied or confirmed. Local checks do not establish production readiness.
+## Public-preview cutover on 2026-10-01
+
+The public domain **has been switched to the static AVIBE casting preview**.
+This is a limited release, not a claim that the full Next.js platform is live.
+The preview source is commit `333e389` in `wuyinhust/vibe-casting`; its Worker
+is `avibe-casting-preview`, with active version
+`d221a4f8-1a94-4916-88cf-ea576e90a269`. The old `avibe` Worker still runs
+version `9df84988-06d9-4e87-ad15-b65a1d5cd8dc` at 100% of its traffic.
+
+| Hostname | Worker | Observed HTTPS behavior |
+| --- | --- | --- |
+| `avibe.net` | `avibe-casting-preview` | 200, new casting preview |
+| `www.avibe.net` | `avibe-casting-preview` | 301 to `avibe.net`, then 200 new preview |
+| `a.avibe.net` | `avibe` | 200, original vibe-coding site |
+| `preview.avibe.net` | `avibe-casting-preview` | 200, independent verification address |
+
+The old `*.avibe.net/*` route still points at `avibe`. More-specific routes
+for `a.avibe.net/*`, `preview.avibe.net/*`, `avibe.net/*` and
+`www.avibe.net/*` ensure the specified hostnames reach their intended Workers.
+Do not remove or reassign the wildcard route without checking any other
+subdomains that depend on it. Cloudflare custom-domain bindings agree with the
+table above.
+
+Live HTTP checks compared the root and www HTML, and the root CSS and
+JavaScript, by SHA-256 with the committed preview build; all matched.
+`/api/v1/health` and
+`/images/cast-editorial.png` returned 404 as intended for this limited
+release. The old site remained accessible at `a.avibe.net`. Browser visual QA
+was not completed through the available UI harness.
+
+To restore the old site to the primary domain, point the two exact routes
+`avibe.net/*` and `www.avibe.net/*` back to `avibe`, then move the two custom
+domain bindings back to `avibe`. Verify root, www and `a.avibe.net` over HTTPS.
+The old Worker version above and the archived GitHub source were retained.
+Do not touch the old database during a route rollback.
+
+The full Node.js runtime, a dedicated production Supabase project, authorized
+public character assets and provider verification remain future release work.
