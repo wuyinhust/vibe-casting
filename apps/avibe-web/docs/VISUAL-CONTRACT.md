@@ -29,4 +29,4 @@
 
 `npm run build`、`npm run typecheck`、`npm test`、`npm run db:check` 和 `npm run test:e2e` 为代码、本地数据库和浏览器证据。Playwright 保存桌面与手机首页及功能页截图到 `test-results/`，这些本地演示截图含仅供本地评估的虚构角色图片，不得作为线上素材发布。
 
-正式数据库要执行四个迁移，并在 `AVIBE_MODE=live` 环境运行 `npm run db:check`；该检查覆盖 30 张业务表、全部 RLS 开关和私有存储桶。它不代替双账号隔离、邮箱 OTP、实时通知、私有下载、Worker、模型与支付服务的真实部署验收。线上公开预览和旧站 `a.avibe.net` 在此之前维持当前绑定。
+原 Supabase 部署路径要求执行四个迁移，并在 `AVIBE_MODE=live` 环境运行 `npm run db:check`；该检查覆盖 30 张业务表、全部 RLS 开关和私有存储桶。腾讯云普通 PostgreSQL 路径需要单独适配迁移与检查，不能直接执行 Supabase 专用的 `002_access.sql`。这些静态检查不代替双账号隔离、邮箱 OTP、消息通知、私有下载、Worker、模型与支付服务的真实部署验收。线上公开预览在完整版验收前保持可用；旧站 `a.avibe.net` 无持续可用要求。

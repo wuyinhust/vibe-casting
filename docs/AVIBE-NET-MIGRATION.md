@@ -21,7 +21,9 @@ Archived on 2026-09-29:
 This is a source archive. It does not contain production databases, account
 records, credentials, DNS configuration or a copy of the active Cloudflare
 deployment. The old Cloudflare Worker and its active version were preserved
-during cutover, as recorded below.
+during the initial cutover, as recorded below. The archive is sufficient for
+the requested legacy-code retention; the old site no longer needs to remain
+available at `a.avibe.net` while the replacement is prepared.
 The local `/Users/vuyin/Documents/avibe` checkout is older than this archive;
 its untracked editor files were not published.
 
@@ -42,11 +44,15 @@ has no account, catalog API, character downloads, generation or payment flow.
 It excludes the local-evaluation-only character images. This is an interim
 public page, not the full Next.js casting platform.
 
-Use a dedicated Supabase project and execute migrations `001_core.sql`,
-`002_access.sql`, `003_talent_leads.sql` and `004_asset_passports.sql` in order.
-Configure the website and worker through deployment secrets. For the final
-origin use `AVIBE_MODE=live` and `APP_ORIGIN=https://avibe.net`. Public deployment
-must not enable local demo accounts or demo credits.
+The original full-platform implementation uses Supabase for PostgreSQL,
+email OTP, private storage and realtime messages. Those services are not part
+of the static public preview. The preferred low-cost deployment is now the
+existing Tencent Cloud server with PostgreSQL; authentication, storage and
+realtime dependencies must be adapted and verified before that backend can
+replace Supabase. Do not run the Supabase-specific `002_access.sql` against a
+plain PostgreSQL instance. For the final origin use `AVIBE_MODE=live` and
+`APP_ORIGIN=https://avibe.net`. Public deployment must not enable local demo
+accounts or demo credits.
 
 The eight demo characters and Lin Yue example package currently permit local
 evaluation only. Do not seed them into the production catalog. Any public
@@ -63,9 +69,10 @@ not grant commercial downloads.
    release; unfinished actions must visibly remain unavailable.
 3. Replace the interim public-preview Worker on `avibe.net` and `www.avibe.net`
    with the verified full service. Check the domain's HTTPS response, website
-   and API. Preserve the prior Cloudflare deployments until stable.
-4. If release verification fails, restore the prior domain/route bindings. Do
-   not roll back by overwriting either project's database.
+   and API. The old `avibe` Worker and `a.avibe.net` need not remain available.
+4. If release verification fails, restore the static AVIBE casting preview
+   while repairing the full service. Do not roll back by overwriting either
+   project's database; the legacy website is not the required fallback.
 
 ## Current status
 

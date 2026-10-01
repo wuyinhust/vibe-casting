@@ -1,8 +1,14 @@
 # 独立预发布与正式上线
 
-## 配置顺序
+## 当前状态与优先方案
 
-1. 新建专用 Supabase 项目。旧 avibe.net 源码已封存在私有仓库 `wuyinhust/avibe`。本项目将替换该域名的网站，但旧项目数据库与新站保持独立；切换前保留原部署和域名路由，以便回退。封存记录与切换顺序见仓库根目录的 `docs/AVIBE-NET-MIGRATION.md`。
+旧 avibe.net 源码已封存在私有仓库 `wuyinhust/avibe`，旧站无需继续在线。当前 `avibe.net` 是静态选角预览，没有登录或数据库；本目录的 Next.js 完整版尚未部署。新站必须使用独立数据库，不能复用旧项目数据。封存记录与切换顺序见仓库根目录的 `docs/AVIBE-NET-MIGRATION.md`。
+
+优先方案是在现有腾讯云 2 核、4 GB、60 GB 服务器上运行 PostgreSQL、Next.js 网站和 Worker。普通 PostgreSQL 可以运行核心业务迁移 `001_core.sql`、`003_talent_leads.sql`、`004_asset_passports.sql`，但 `002_access.sql` 依赖 Supabase Auth、Storage、Realtime，**不能直接执行**。邮箱验证码、私有文件存储、消息通知、数据库检查与部署脚本仍需适配和验收；完成前不能把当前代码作为无 Supabase 的正式环境部署。4 GB 是否有足够余量还需根据服务器上现有负载和真实运行指标判定。
+
+## 原 Supabase 方案（备选，当前未部署）
+
+1. 新建专用 Supabase 项目。旧项目数据库与新站保持独立。
 2. 在 SQL 编辑器依次执行 `001_core.sql`、`002_access.sql`、`003_talent_leads.sql`、`004_asset_passports.sql`。第二份迁移包含策略和触发器，首次部署执行一次。数据库直连凭据仅提供给网站服务与 Worker；浏览器只能得到项目 URL 与 anon key。
    执行后在配置了 `AVIBE_MODE=live` 和 `DATABASE_URL` 的运维环境运行 `npm run db:check`，确认 30 张业务表、RLS 与私有桶均就绪；不能把本地演示库的通过结果当成正式数据库验收。
 3. Storage 使用 `avibe-private` 私有桶。不要给角色原图添加公开桶或浏览器下载策略；网站通过授权 API 返回文件。更换桶名需要同步修改迁移与环境变量。
