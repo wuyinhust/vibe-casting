@@ -47,14 +47,30 @@ import {
 import { Studio } from "./studio";
 import { ProfileEditor } from "./profile-editor";
 import { Boards, Messages, Account, Admin } from "./workspace";
-export function Platform() {
+const routeViews = new Set([
+  "discover",
+  "boards",
+  "studio",
+  "messages",
+  "account",
+  "skill",
+  "admin",
+]);
+
+export function Platform({
+  initialView = "discover",
+  initialCharacter = null,
+}: {
+  initialView?: string;
+  initialCharacter?: string | null;
+}) {
   const [locale, setLocale] = useState<Locale>("zh"),
-    [view, setView] = useState("discover"),
+    [view, setView] = useState(initialView),
     [user, setUser] = useState<Data | null>(null),
     [cap, setCap] = useState<Data>({}),
     [wallet, setWallet] = useState<Data | null>(null),
     [login, setLogin] = useState(false),
-    [selected, setSelected] = useState<string | null>(null),
+    [selected, setSelected] = useState<string | null>(initialCharacter),
     [toast, setToast] = useState(""),
     [q, setQ] = useState(""),
     [studioCharacter, setStudioCharacter] = useState<string | null>(null);
@@ -72,10 +88,22 @@ export function Platform() {
   useEffect(() => {
     const stored = localStorage.getItem("avibe-locale");
     if (stored === "en") setLocale("en");
-    const params = new URLSearchParams(location.search);
-    if (params.get("character")) setSelected(params.get("character"));
     refreshMe().catch((e) => notify(e.message));
   }, [refreshMe, notify]);
+  useEffect(() => {
+    const syncRoute = () => {
+      const parts = location.pathname.split("/").filter(Boolean);
+      if (parts[0] === "characters" && parts[1]) {
+        setSelected(decodeURIComponent(parts[1]));
+        setView("discover");
+      } else {
+        setSelected(null);
+        if (routeViews.has(parts[0])) setView(parts[0]);
+      }
+    };
+    window.addEventListener("popstate", syncRoute);
+    return () => window.removeEventListener("popstate", syncRoute);
+  }, []);
   useEffect(() => {
     document.documentElement.lang = locale === "zh" ? "zh-CN" : "en";
     localStorage.setItem("avibe-locale", locale);
@@ -86,20 +114,21 @@ export function Platform() {
     return () => clearTimeout(tm);
   }, [toast]);
   const navigate = useCallback((v: string) => {
+    if (!routeViews.has(v)) return;
     setView(v);
     setSelected(null);
     if (v !== "studio") setStudioCharacter(null);
-    window.history.replaceState({}, "", location.pathname);
+    window.history.pushState({}, "", `/${v}`);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
   const openCharacter = useCallback((id: string) => {
     setSelected(id);
-    window.history.replaceState({}, "", `?character=${encodeURIComponent(id)}`);
+    window.history.pushState({}, "", `/characters/${encodeURIComponent(id)}`);
   }, []);
   const closeCharacter = useCallback(() => {
     setSelected(null);
-    window.history.replaceState({}, "", location.pathname);
-  }, []);
+    window.history.pushState({}, "", `/${view}`);
+  }, [view]);
   const requireLogin = useCallback(() => {
     if (user) return true;
     setLogin(true);
@@ -142,9 +171,9 @@ export function Platform() {
     <AppContext.Provider value={ctx}>
       <div className="app-shell">
         <aside className="sidebar">
-          <button className="brand" onClick={() => navigate("discover")}>
+          <a className="brand" href="/">
             avibe<span>✳</span>
-          </button>
+          </a>
           <div className="brand-caption">A NEW CAST OF POSSIBILITIES</div>
           <nav>
             {nav.map(([id, Icon, label]) => (
@@ -222,9 +251,9 @@ export function Platform() {
         </aside>
         <main className="main">
           <header className="topbar">
-            <div className="mobile-brand" onClick={() => navigate("discover")}>
+            <a className="mobile-brand" href="/">
               avibe✳
-            </div>
+            </a>
             <div className="top-search">
               <Search size={19} />
               <input
@@ -237,6 +266,8 @@ export function Platform() {
                 onChange={(e) => {
                   setQ(e.target.value);
                   setView("discover");
+                  if (location.pathname !== "/discover")
+                    window.history.replaceState({}, "", "/discover");
                 }}
               />
               {q ? (
@@ -321,6 +352,7 @@ export function Platform() {
             setStudioCharacter(selected);
             setSelected(null);
             setView("studio");
+            window.history.pushState({}, "", "/studio");
           }}
         />
       )}

@@ -4,6 +4,7 @@
 
 1. 新建专用 Supabase 项目。旧 avibe.net 源码已封存在私有仓库 `wuyinhust/avibe`。本项目将替换该域名的网站，但旧项目数据库与新站保持独立；切换前保留原部署和域名路由，以便回退。封存记录与切换顺序见仓库根目录的 `docs/AVIBE-NET-MIGRATION.md`。
 2. 在 SQL 编辑器依次执行 `001_core.sql`、`002_access.sql`、`003_talent_leads.sql`、`004_asset_passports.sql`。第二份迁移包含策略和触发器，首次部署执行一次。数据库直连凭据仅提供给网站服务与 Worker；浏览器只能得到项目 URL 与 anon key。
+   执行后在配置了 `AVIBE_MODE=live` 和 `DATABASE_URL` 的运维环境运行 `npm run db:check`，确认 30 张业务表、RLS 与私有桶均就绪；不能把本地演示库的通过结果当成正式数据库验收。
 3. Storage 使用 `avibe-private` 私有桶。不要给角色原图添加公开桶或浏览器下载策略；网站通过授权 API 返回文件。更换桶名需要同步修改迁移与环境变量。
 4. 开启邮箱 OTP，把 Supabase 的邮箱登录邮件模板配置为显示 `{{ .Token }}`。配置预发布 URL 与允许回跳地址。网站使用自己的 HttpOnly 会话 Cookie；实时客户端使用 Supabase 登录会话。
 5. 设置 `AVIBE_MODE=live`、`APP_ORIGIN=https://独立预发布域名`、`DATABASE_URL`、Supabase URL/anon/service-role key。所有私密 Key 放到部署平台秘密管理器。

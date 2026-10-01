@@ -1,8 +1,48 @@
 import { test, expect } from "@playwright/test";
-test("discovery, bilingual filtering and a verified character detail", async ({
+test("current public visual leads into the functional catalog", async ({
   page,
 }) => {
   await page.goto("/");
+  await expect(
+    page.getByRole("heading", { name: "找到，让故事发生的人。" }),
+  ).toBeVisible();
+  await expect(page.locator(".hero-art .art-mark")).toHaveText("✳");
+  await page.screenshot({
+    path: "test-results/desktop-landing.png",
+    fullPage: true,
+  });
+  await page.getByRole("button", { name: "Switch language" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Find the face of your next story." }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Discover characters" }).click();
+  await expect(page).toHaveURL(/\/discover$/);
+  await expect(page.locator(".cast-card")).toHaveCount(8, { timeout: 60000 });
+  await page.getByRole("button", { name: "Casting boards" }).click();
+  await expect(page).toHaveURL(/\/boards$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/discover$/);
+});
+test("current public visual remains usable on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", { name: "找到，让故事发生的人。" }),
+  ).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page.screenshot({
+    path: "test-results/mobile-landing.png",
+    fullPage: true,
+  });
+});
+test("discovery, bilingual filtering and a verified character detail", async ({
+  page,
+}) => {
+  await page.goto("/discover");
   await expect(
     page.getByRole("heading", { name: "找到，让故事发生的人。" }),
   ).toBeVisible();
@@ -22,12 +62,17 @@ test("discovery, bilingual filtering and a verified character detail", async ({
   await expect(page.locator(".cast-card")).toHaveCount(8);
 });
 test("demo login, boards and package download", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/discover");
   await expect(page.locator(".cast-card")).toHaveCount(8, { timeout: 60000 });
   await page.getByRole("button", { name: "我的账号", exact: true }).click();
   await page.getByRole("button", { name: "进入本地演示" }).click();
   await expect(page.getByText("欢迎来到 avibe", { exact: true })).toBeVisible();
   await page.locator(".card-name").first().click();
+  await expect(page).toHaveURL(/\/characters\/[^/]+$/);
+  await page.reload();
+  await expect(
+    page.getByRole("button", { name: "造型与角色卡" }),
+  ).toBeVisible();
   await page.getByRole("button", { name: "造型与角色卡" }).click();
   await expect(page.locator(".asset-previews img")).toHaveCount(4);
   const downloadPromise = page.waitForEvent("download");
@@ -41,7 +86,7 @@ test("demo login, boards and package download", async ({ page }) => {
   await expect(page.getByText("已加入选角板", { exact: true })).toBeVisible();
 });
 test("private draft and disabled unconfigured generation", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/discover");
   await expect(page.locator(".cast-card")).toHaveCount(8, { timeout: 60000 });
   await page.getByRole("button", { name: "我的账号", exact: true }).click();
   await page.getByRole("button", { name: "进入本地演示" }).click();
@@ -54,7 +99,7 @@ test("private draft and disabled unconfigured generation", async ({ page }) => {
 });
 test("mobile layout has no horizontal overflow", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto("/discover");
   await expect(page.locator(".cast-card")).toHaveCount(8, { timeout: 60000 });
   expect(
     await page.evaluate(
@@ -70,7 +115,7 @@ test("mobile layout has no horizontal overflow", async ({ page }) => {
 
 test("mobile collaboration and wardrobe flow", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/");
+  await page.goto("/discover");
   await expect(page.locator(".cast-card")).toHaveCount(8, { timeout: 60000 });
   await page.getByRole("button", { name: "我的账号", exact: true }).click();
   await page.getByRole("button", { name: "进入本地演示" }).click();

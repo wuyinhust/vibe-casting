@@ -1,6 +1,6 @@
 # avibe
 
-面向 AI 视频创作者的数字达人选角平台。网站与 `avibe-casting` Skill 共用目录、固定版本角色包和授权检查。本项目使用独立代码和数据，未连接、读取或修改现有 avibe.net。
+面向 AI 视频创作者的数字达人选角平台。网站与 `avibe-casting` Skill 共用目录、固定版本角色包和授权检查。当前 `avibe.net` 仍运行静态公开预览；完整 Next.js 网站和专用数据库需在独立环境验收后发布。
 
 ## 本地运行
 
@@ -12,7 +12,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-打开 http://localhost:3217，点击「我的账号 → 进入本地演示」。演示账号彼此隔离，初始积分没有现金价值。演示仅监听本机，不能作为公网部署模式。
+打开 http://localhost:3217 可见与当前 `avibe.net` 公开预览一致的首页视觉；点「发现角色」进入 `/discover`，再从侧栏访问选角板、创作工作室、商务消息和我的空间。在功能页点击「我的账号 → 进入本地演示」。演示账号彼此隔离，初始积分没有现金价值。演示仅监听本机，不能作为公网部署模式。
 
 本地包含 8 位原创虚构成年人的展示图，以及林悦的完整身份／正面／背面／侧面角色包。其他人物明确标记为形象展示。图片仅供本地产品评估；用户提供的附件没有被复制为公共素材。
 
@@ -34,22 +34,23 @@ npm run dev
 
 ## 项目结构
 
-| 路径 | 职责 |
-|---|---|
-| `app/`、`src/components/` | Next.js 网站与中英界面 |
-| `app/api/v1/[...path]/route.ts` | 版本化服务 API |
-| `src/lib/` | 检索、资产授权、版本、生成、账本、支付 |
-| `worker/index.ts` | pg-boss 生成 Worker 与支付查单 |
-| `supabase/migrations/` | 数据库、RLS、私有存储与实时授权 |
-| `open-source/avibe-casting/` | 可单独开源的 Skill、Python 客户端、格式及示例 |
-| `scripts/import-character.ts` | 有授权的官方素材导入，默认待审核 |
-| `tests/` | 领域逻辑、下载安全与网页验收 |
+| 路径                            | 职责                                          |
+| ------------------------------- | --------------------------------------------- |
+| `app/`、`src/components/`       | Next.js 网站与中英界面                        |
+| `app/api/v1/[...path]/route.ts` | 版本化服务 API                                |
+| `src/lib/`                      | 检索、资产授权、版本、生成、账本、支付        |
+| `worker/index.ts`               | pg-boss 生成 Worker 与支付查单                |
+| `supabase/migrations/`          | 数据库、RLS、私有存储与实时授权               |
+| `open-source/avibe-casting/`    | 可单独开源的 Skill、Python 客户端、格式及示例 |
+| `scripts/import-character.ts`   | 有授权的官方素材导入，默认待审核              |
+| `tests/`                        | 领域逻辑、下载安全与网页验收                  |
 
 ## 检查与测试
 
 ```sh
 npm run typecheck
 npm test
+npm run db:check
 python3 -m unittest discover -s tests -p '*_test.py'
 npm run build
 # 先启动本地网站；E2E 使用已安装的 Chrome
@@ -57,6 +58,7 @@ npm run test:e2e
 ```
 
 验证结果与真实服务的验收边界见 `docs/VALIDATION.md`，部署步骤见 `docs/DEPLOYMENT.md`。
+当前首页视觉与功能页的对应关系见 `docs/VISUAL-CONTRACT.md`。完整 Next.js 服务仍须部署在独立地址并连接专用 Supabase 后，才能替换现在线上的静态预览；源码更新不会自动改变 `avibe.net`。
 
 ## 开源 Skill
 

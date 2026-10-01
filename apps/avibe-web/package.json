@@ -10,6 +10,7 @@
     "test": "node --import tsx --test tests/*.test.ts",
     "worker": "node --import tsx worker/index.ts",
     "db:migrate": "node --import tsx scripts/migrate.ts",
+    "db:check": "node --import tsx scripts/check-db.ts",
     "seed": "node --import tsx scripts/seed.ts",
     "test:e2e": "playwright test",
     "format": "prettier --write app src worker scripts tests supabase docs",
