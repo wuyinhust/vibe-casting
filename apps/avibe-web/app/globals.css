@@ -481,12 +481,23 @@ svg {
   justify-content: center;
   margin-top: 18px;
 }
-.avatar-stack .portrait {
+.avatar-stack > span {
   width: 31px;
   height: 31px;
   border-radius: 50%;
   border: 2px solid white;
   margin-left: -7px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(140deg, #f8d8bd, #e9b2cb, #c8b8ed);
+  color: #8a5579;
+  font-size: 19px;
+}
+.avatar-stack > span:nth-child(2) {
+  background: linear-gradient(140deg, #ece0cb, #dac6d8);
+}
+.avatar-stack > span:nth-child(3) {
+  background: linear-gradient(140deg, #f3d0d0, #d9b7e8);
 }
 .hero-note small {
   font-size: 8px;
@@ -1411,15 +1422,22 @@ svg {
   border-radius: 14px;
   overflow: hidden;
 }
-.studio-preview .portrait {
+.studio-preview-art {
   aspect-ratio: 3/3.5;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #f9ebe0, #f7e8ed 55%, #eee8fa);
+  color: #d77496;
+  font:
+    110px Georgia,
+    serif;
 }
 .studio-preview > span {
   position: absolute;
   bottom: 20px;
   left: 20px;
   font-size: 9px;
-  color: white;
+  color: #986f7d;
   letter-spacing: 2px;
 }
 .workflow-list {

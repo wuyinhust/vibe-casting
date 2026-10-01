@@ -485,12 +485,9 @@ export function Studio({
           </form>
           <aside className="studio-aside">
             <div className="studio-preview">
-              <Portrait
-                character={{
-                  sprite_index: 0,
-                  cover: "/images/cast-editorial.png",
-                }}
-              />
+              <div className="studio-preview-art" aria-hidden="true">
+                ✳
+              </div>
               <span>YOUR NEXT MUSE</span>
             </div>
             <div className="workflow-list">

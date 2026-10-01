@@ -491,15 +491,9 @@ function Discover({ q }: { q: string }) {
           </span>
           <div className="note-arrow">↙</div>
           <div className="avatar-stack">
-            {[0, 1, 2].map((i) => (
-              <Portrait
-                key={i}
-                character={{
-                  sprite_index: i,
-                  cover: "/images/cast-editorial.png",
-                }}
-              />
-            ))}
+            <span>✳</span>
+            <span>◌</span>
+            <span>✴</span>
           </div>
           <small>{t("下一幕，由你定义。", "The next chapter is yours.")}</small>
         </div>

@@ -6,7 +6,7 @@ import {
 } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 import { query, one } from "./db";
-import { isDemo, required, appOrigin } from "./config";
+import { isDemo, required, appOrigin, supabaseSecretKey } from "./config";
 import { assert, fail } from "./errors";
 export type User = {
   id: string;
@@ -18,7 +18,7 @@ export const hash = (s: string) => createHash("sha256").update(s).digest("hex");
 export function supabaseAdmin() {
   return createClient(
     required("NEXT_PUBLIC_SUPABASE_URL"),
-    required("SUPABASE_SERVICE_ROLE_KEY"),
+    supabaseSecretKey() || required("SUPABASE_SECRET_KEY"),
     { auth: { persistSession: false, autoRefreshToken: false } },
   );
 }

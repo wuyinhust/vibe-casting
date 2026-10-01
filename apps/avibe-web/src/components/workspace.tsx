@@ -315,11 +315,13 @@ export function Messages() {
     if (
       cap.realtime &&
       process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
     ) {
       const sb = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
       const stored = sessionStorage.getItem("avibe-supabase-session");
       if (stored) {

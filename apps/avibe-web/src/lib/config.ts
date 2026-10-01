@@ -16,6 +16,11 @@ export function required(name: string) {
   if (!value) throw new Error(`Missing configuration: ${name}`);
   return value;
 }
+export const supabasePublishableKey = () =>
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+export const supabaseSecretKey = () =>
+  process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 export function capabilities() {
   const demo = isDemo(),
     has = (names: string[]) => names.every((n) => !!process.env[n]);
@@ -41,15 +46,14 @@ export function capabilities() {
     generation: !!process.env.OPENAI_API_KEY,
     auth:
       !demo &&
-      has([
-        "NEXT_PUBLIC_SUPABASE_URL",
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-        "SUPABASE_SERVICE_ROLE_KEY",
-      ]),
+      !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
+      !!supabasePublishableKey() &&
+      !!supabaseSecretKey(),
     payments: providers.length > 0,
     payment_providers: providers,
     realtime:
       !demo &&
-      has(["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_ANON_KEY"]),
+      !!process.env.NEXT_PUBLIC_SUPABASE_URL &&
+      !!supabasePublishableKey(),
   };
 }

@@ -13,4 +13,8 @@
 **/__pycache__
 **/*.pyc
 **/artifacts/*.zip
+# Local-evaluation-only character imagery must not enter public images.
+apps/avibe-web/assets/demo/
+apps/avibe-web/public/images/cast-editorial.png
+apps/avibe-web/docs/screenshots/
 .DS_Store

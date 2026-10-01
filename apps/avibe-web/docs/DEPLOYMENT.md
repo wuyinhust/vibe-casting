@@ -7,8 +7,9 @@
    执行后在配置了 `AVIBE_MODE=live` 和 `DATABASE_URL` 的运维环境运行 `npm run db:check`，确认 30 张业务表、RLS 与私有桶均就绪；不能把本地演示库的通过结果当成正式数据库验收。
 3. Storage 使用 `avibe-private` 私有桶。不要给角色原图添加公开桶或浏览器下载策略；网站通过授权 API 返回文件。更换桶名需要同步修改迁移与环境变量。
 4. 开启邮箱 OTP，把 Supabase 的邮箱登录邮件模板配置为显示 `{{ .Token }}`。配置预发布 URL 与允许回跳地址。网站使用自己的 HttpOnly 会话 Cookie；实时客户端使用 Supabase 登录会话。
-5. 设置 `AVIBE_MODE=live`、`APP_ORIGIN=https://独立预发布域名`、`DATABASE_URL`、Supabase URL/anon/service-role key。所有私密 Key 放到部署平台秘密管理器。
-6. 执行 `npm ci && npm run build`，部署网站及独立 Worker。Worker 执行 `npm run worker`，必须保持长驻。默认端口 3217；容器监听 0.0.0.0，前方使用 HTTPS 反向代理。Docker 构建时传入两个 `NEXT_PUBLIC_SUPABASE_*` build args。
+5. 设置 `AVIBE_MODE=live`、`APP_ORIGIN=https://独立预发布域名`、`DATABASE_URL`、`NEXT_PUBLIC_SUPABASE_URL`、`NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`、`SUPABASE_SECRET_KEY`。使用 Supabase 当前推荐的 publishable/secret 密钥；旧 `NEXT_PUBLIC_SUPABASE_ANON_KEY` 和 `SUPABASE_SERVICE_ROLE_KEY` 仅为已有配置保留兼容。所有私密 Key 放到部署平台秘密管理器。
+6. 执行 `npm ci && npm run build`，部署网站及独立 Worker。Worker 执行 `npm run worker`，必须保持长驻。默认端口 3217；容器监听 0.0.0.0，前方使用 HTTPS 反向代理。Docker 构建时传入 `NEXT_PUBLIC_SUPABASE_URL` 与 `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` build args。
+   对零费用预发布，可先把网站单独部署到 Render Free Web Service、数据库使用 Supabase Free；工作室草稿可验收，但不配置 `OPENAI_API_KEY`，也不启动生成 Worker 或开放支付。Render 免费 Web Service 空闲时会休眠，且免费后台 Worker 不可用，因此这不等于完整平台的生产部署。Docker 构建上下文保持仓库根目录，Dockerfile 路径为 `apps/avibe-web/Dockerfile`；`.dockerignore` 排除仅供本地评估的人物素材。
 7. 首个运营账号先正常邮箱登录，再由服务器运维执行 `npm run staff:promote -- 邮箱 admin`。该脚本需数据库权限，网站没有自助提权接口。`staff` 可审核和接待；`admin` 可配置价格、套餐与授权。
 8. 配置 OpenAI Key 与模型名称。图像模型由 `OPENAI_IMAGE_MODEL` 控制；上线前用实际账号验证模型可用性。执行一组付费小样，测量身份稳定性、服装细节、耗时与实际用量。后台默认价格为关闭状态，金额仅是待配置占位，不能当作经过成本测算的售价。
 9. 导入已获授权的角色，或通过网站生成私人角色后投稿。`npm run import:character -- ./authorized-character.json` 导入的素材一律待审核；发生中途错误时保留私人部分资产，不发布不完整包。正式目录不要导入本地演示图片。

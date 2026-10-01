@@ -43,7 +43,8 @@ export function Portrait({
   style?: React.CSSProperties;
   onClick?: () => void;
 }) {
-  return character.sprite_index !== null &&
+  return character.cover &&
+    character.sprite_index !== null &&
     character.sprite_index !== undefined ? (
     <svg
       role="img"
@@ -57,7 +58,7 @@ export function Portrait({
       preserveAspectRatio="xMidYMin slice"
     >
       <image
-        href={character.cover || "/images/cast-editorial.png"}
+        href={character.cover}
         width="1536"
         height="1024"
         preserveAspectRatio="xMidYMid meet"

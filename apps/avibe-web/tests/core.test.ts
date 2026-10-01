@@ -436,3 +436,32 @@ test("Incomplete merchant configuration and public demo origins fail closed", ()
     }
   }
 });
+test("Current Supabase publishable and secret keys enable live auth without legacy keys", () => {
+  const names = [
+    "AVIBE_MODE",
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+    "SUPABASE_SECRET_KEY",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+  ];
+  const saved = Object.fromEntries(names.map((k) => [k, process.env[k]]));
+  try {
+    process.env.AVIBE_MODE = "live";
+    process.env.NEXT_PUBLIC_SUPABASE_URL = "https://example.supabase.co";
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_test";
+    process.env.SUPABASE_SECRET_KEY = "sb_secret_test";
+    delete process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+    assert.equal(capabilities().auth, true);
+    assert.equal(capabilities().realtime, true);
+    delete process.env.SUPABASE_SECRET_KEY;
+    assert.equal(capabilities().auth, false);
+    assert.equal(capabilities().realtime, true);
+  } finally {
+    for (const k of names) {
+      if (saved[k] === undefined) delete process.env[k];
+      else process.env[k] = saved[k];
+    }
+  }
+});
